@@ -29,9 +29,11 @@ public class EmailUtils {
      */
     public static ArrayList<String> getEmails(Context c) {
         Pattern rfc2822 = Pattern.compile("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
-        Account[] accounts = AccountManager.get(c).getAccounts();
         ArrayList<String> emails = new ArrayList<String>();
-        for (Account account : accounts)
+        AccountManager am = AccountManager.get(c);
+        if (am == null)
+            return emails;
+        for (Account account : am.getAccounts())
             if (rfc2822.matcher(account.name).matches())
                 emails.add(account.name);
         return emails;
