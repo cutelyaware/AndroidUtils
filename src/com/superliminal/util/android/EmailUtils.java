@@ -17,8 +17,9 @@ public class EmailUtils {
 
     public static void sendEmail(String to, String subject, String body, Context cxt) {
         final Intent sendIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sendIntent.setType("plain/text");
-        sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{to});
+        sendIntent.setType("text/plain");
+        if (to != null && to.length() > 0)
+            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{to});
         sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
         sendIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
         cxt.startActivity(Intent.createChooser(sendIntent, "Send mail..."));
